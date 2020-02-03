@@ -6,6 +6,8 @@ import CardDog from '../../components/CardDog'
 import { getDogs } from '../../service/base'
 import { getImagem } from '../../service/baseImagem'
 
+
+
 import './style.css'
 
 class Home extends React.Component {
@@ -109,8 +111,11 @@ class Home extends React.Component {
                 console.error(error)
             })
 
-
-
+    }
+    mostraCard = () => {
+        this.props.history.push({
+            pathname: '/card'
+        })
     }
 
     render() {
@@ -179,15 +184,24 @@ class Home extends React.Component {
                             </Select>
                         </div>
 
-                        <Button
-                            classeButton='btn'
-                            handleClick={this.handleClick}
-                        >Criar card
-                    </Button>
-                    </form>
-                    <div className= 'container-card'>
-                        {this.listaCards.map(item => {
+                        <div className='container-btn'>
+                            <Button
+                                classeButton='btn'
+                                handleClick={this.handleClick}
+                            >Salvar card
+                            </Button>
 
+                            <Button
+                                classeButton='btn'
+                                handleClick={this.mostraCard}
+                            >
+                                MOSTRAR CARDS
+                            </Button>
+                        </div>
+                    </form>
+
+                    <div className='container-card'>
+                        {this.listaCards.map(item => {
                             return (
                                 <div className='container-imagem'>
                                     <CardDog
@@ -195,10 +209,10 @@ class Home extends React.Component {
                                     />
                                     <span className={item.corFonte + " " + item.fonte}>{item.dog}</span>
                                 </div>
-
                             )
                         })
                         }
+
                     </div>
 
                 </div>
