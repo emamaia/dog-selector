@@ -22,7 +22,8 @@ class Home extends React.Component {
             cor: '',
             fonte: '',
             raca: '',
-            urlImagem: ''
+            urlImagem: '',
+            sucesso: true
         }
         this.listaCards = []
     }
@@ -31,8 +32,8 @@ class Home extends React.Component {
         getDogs()
             .then(response => {
                 let listaDog = []
-                for (var dog in response.data.message) {
-                    listaDog.push(dog)
+                    for (var dog in response.data.message) {
+                        listaDog.push(dog)
                 }
                 this.setState({
                     dogList: listaDog
@@ -81,11 +82,13 @@ class Home extends React.Component {
 
     handleClick = (ev) => {
         ev.preventDefault()
-
+        
         getImagem(this.state.raca)
             .then(response => {
                 this.setState({
-                    urlImagem: response.data.message
+                    urlImagem: response.data.message,
+                    sucesso: false
+
                 })
                 const card = {
                     dog: this.state.nome.valor,
@@ -198,6 +201,8 @@ class Home extends React.Component {
                                 MOSTRAR CARDS
                             </Button>
                         </div>
+                        {this.state.sucesso === true? " ": <h4>Card cadastrado com sucesso</h4>}
+                       
                     </form>
 
                     <div className='container-card'>
