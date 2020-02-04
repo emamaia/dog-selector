@@ -109,7 +109,7 @@ class Home extends React.Component {
                     fonte: this.state.fonte,
                     dogRaca: this.state.raca,
                     imagem: this.state.urlImagem,
-                    data: new Date()
+                    data: new Intl.DateTimeFormat('pt-BR', {timezone:'America/Brasilia', day:'2-digit',month:'2-digit', year:'numeric',hour:'2-digit', minute:'2-digit'}).format(new Date())
                 }
 
                 console.log(card)
