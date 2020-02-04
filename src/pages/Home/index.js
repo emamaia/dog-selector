@@ -32,8 +32,15 @@ class Home extends React.Component {
         getDogs()
             .then(response => {
                 let listaDog = []
-                    for (var dog in response.data.message) {
+                for (var dog in response.data.message) {
+                    let racaAuxiliar = response.data.message[dog]
+                    if(racaAuxiliar.length === 0){
                         listaDog.push(dog)
+                    } else{
+                        racaAuxiliar.map(item=>{
+                            listaDog.push(item+" "+ dog)
+                        })
+                    }
                 }
                 this.setState({
                     dogList: listaDog
@@ -82,8 +89,14 @@ class Home extends React.Component {
 
     handleClick = (ev) => {
         ev.preventDefault()
-        
-        getImagem(this.state.raca)
+
+        let caminhoRaca= this.state.raca
+        if(caminhoRaca.includes(' ')){
+            let racas= caminhoRaca.split(' ')
+            caminhoRaca= racas[1]+'/'+racas[0]
+        } 
+
+        getImagem(caminhoRaca)
             .then(response => {
                 this.setState({
                     urlImagem: response.data.message,
@@ -95,7 +108,8 @@ class Home extends React.Component {
                     corFonte: this.state.cor,
                     fonte: this.state.fonte,
                     dogRaca: this.state.raca,
-                    imagem: this.state.urlImagem
+                    imagem: this.state.urlImagem,
+                    data: new Date()
                 }
 
                 console.log(card)
@@ -125,11 +139,11 @@ class Home extends React.Component {
         return (
             <div className='container-home'>
                 <div className='container-title'>
-                    <h1>Crie o card do seu cãozinho:</h1>
+                    <h1>Crie card de cãezinhos:</h1>
                 </div>
 
                 <div className='container-input'>
-                    <h2>Digite o nome do seu amiguinho:</h2>
+                    <h2>Crie um nome para o pet:</h2>
                     <form>
                         <Input
                             required
@@ -201,8 +215,8 @@ class Home extends React.Component {
                                 MOSTRAR CARDS
                             </Button>
                         </div>
-                        {this.state.sucesso === true? " ": <h4>Card cadastrado com sucesso</h4>}
-                       
+                        {this.state.sucesso === true ? " " : <h4>Card cadastrado com sucesso</h4>}
+
                     </form>
 
                     <div className='container-card'>
@@ -213,6 +227,7 @@ class Home extends React.Component {
                                         imagem={item.imagem}
                                     />
                                     <span className={item.corFonte + " " + item.fonte}>{item.dog}</span>
+                                    <p className={item.corFonte + " " + item.fonte +" "+'data'}>{item.data}</p>
                                 </div>
                             )
                         })
